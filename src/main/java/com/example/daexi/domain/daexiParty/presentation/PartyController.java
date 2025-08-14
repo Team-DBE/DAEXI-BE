@@ -28,21 +28,19 @@ public class PartyController {
     @GetMapping("/party/list")
     public ResponseEntity<List<PartyListResponseDto>> getPartyList() {
         return ResponseEntity.ok()
-                .header("Content-Type", "application/json")
                 .body(partyService.partyList());
     }
 
     @PostMapping("/party/post")
     public ResponseEntity<Party> postParty(@RequestBody @Valid PartyPostRequestDto partyPostRequestDto, Principal principal) {
-        partyService.postParty(partyPostRequestDto, principal);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Content-Type", "application/json")
-                .build();
+                .body(partyService.postParty(partyPostRequestDto, principal));
     }
 
     @DeleteMapping("/party/delete")
-    public ResponseEntity<Void> deleteParty(@RequestBody @Valid PartyDeleteRequestDto partydeleteRequestDto, Principal principal) {
+    public ResponseEntity<Void> deleteParty(@RequestBody @Valid PartyDeleteRequestDto partydeleteRequestDto, @Valid Principal principal) {
         partyService.deleteParty(partydeleteRequestDto, principal);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)

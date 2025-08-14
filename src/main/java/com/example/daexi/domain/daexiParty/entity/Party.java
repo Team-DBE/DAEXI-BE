@@ -1,7 +1,6 @@
 package com.example.daexi.domain.daexiParty.entity;
 
-
-import com.example.daexi.domain.room.entity.Room;
+import com.example.daexi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,14 +24,14 @@ public class Party {
     @Column(nullable = false, name = "party_name")
     private String partyName;
 
-    @Column(nullable = false, name = "party_password")
+    @Column(nullable = true , name = "party_password")
     private String partyPassword;
 
     @Column(nullable = false, name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(nullable = false, name = "partyhost")
+    @Column(nullable = false, name = "party_host")
     private String partyHost;
 
     @Column(nullable = false, name = "starting_point")
@@ -41,7 +40,6 @@ public class Party {
     @Column(nullable = false, name = "ending_point")
     private String endingPoint;
 
-    @OneToMany(mappedBy = "party")
-    private List<Room> rooms = new ArrayList<>();
-
+    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
 }

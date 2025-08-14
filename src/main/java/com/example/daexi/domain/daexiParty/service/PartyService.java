@@ -6,18 +6,21 @@ import com.example.daexi.domain.daexiParty.presentation.dto.PartyDeleteRequestDt
 import com.example.daexi.domain.daexiParty.presentation.dto.PartyInformationResponseDto;
 import com.example.daexi.domain.daexiParty.presentation.dto.PartyPostRequestDto;
 import com.example.daexi.domain.daexiParty.presentation.dto.PartyListResponseDto;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class PartyService {
 
     private final PartyRepository partyRepository;
@@ -40,8 +43,8 @@ public class PartyService {
                 .build();
     }
 
-    public Party postParty(PartyPostRequestDto partyPostRequestDto, Principal principal) {
-        String username = principal.getName();
+    @Transactional
+    public Party postParty(@Valid PartyPostRequestDto partyPostRequestDto, @Valid Principal principal) {
 
         Party party = Party.builder()
                 .partyName(partyPostRequestDto.getPartyName())
@@ -49,7 +52,7 @@ public class PartyService {
                 .startingPoint(partyPostRequestDto.getStartingPoint())
                 .endingPoint(partyPostRequestDto.getEndingPoint())
                 .createdAt(LocalDateTime.now())
-                .partyHost(username)
+                .partyHost(principal.getName())
                 .build();
 
         partyRepository.save(party);
@@ -105,5 +108,7 @@ public class PartyService {
 
         return partyPostRequestDto;
     }
+
+
 
 }

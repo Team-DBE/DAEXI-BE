@@ -1,6 +1,6 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.daexi.domain.room.entity.Room;
+import com.example.daexi.domain.daexiParty.entity.Party;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,9 +30,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(length = 20,nullable = false, unique = true, name = "user_name")
+    @Column(length = 20, nullable = false, unique = true, name = "user_name")
     private String userName;
 
-    @OneToMany(mappedBy = "user")
-    private List<Room> rooms = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "party_id")
+    private Party party;
 }

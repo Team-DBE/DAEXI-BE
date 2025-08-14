@@ -4,20 +4,19 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
-@NotBlank
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PartyPostRequestDto {
 
-    @NotBlank(message = "파티 이름은 필수 입력값입니다.")
+    @NotBlank(message = "party_name don't null")
     private String partyName;
 
     private String partyPassword;
 
-    @NotBlank
+    @NotBlank(message = "starting_point don't null")
     private String startingPoint;
 
-    @NotBlank
+    @NotBlank(message = "ending_point don't null")
     private String endingPoint;
 }
