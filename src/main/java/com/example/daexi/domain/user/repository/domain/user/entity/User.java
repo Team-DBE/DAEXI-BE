@@ -1,0 +1,38 @@
+package com.example.daexi.domain.user.repository.domain.user.entity;
+
+import com.example.daexi.domain.user.repository.domain.room.entity.Room;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true, name = "user_number")
+    private int userNumber;
+
+    @Column(nullable = false,length = 30)
+    private String password;
+
+    @Column(nullable = false, name = "acccount_number")
+    private String accountNumber;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(length = 20,nullable = false, unique = true, name = "user_name")
+    private String userName;
+
+    @OneToMany(mappedBy = "user")
+    private List<Room> rooms = new ArrayList<>();
+}
