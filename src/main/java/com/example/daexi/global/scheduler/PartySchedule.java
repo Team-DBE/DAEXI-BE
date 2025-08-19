@@ -1,6 +1,6 @@
 package com.example.daexi.global.scheduler;
 
-import com.example.daexi.domain.daexiParty.entity.repository.PartyRepository;
+import com.example.daexi.domain.party.entity.repository.PartyRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,11 @@
-package com.example.daexi.domain.daexiParty.presentation;
+package com.example.daexi.domain.party.presentation;
 
-import com.example.daexi.domain.daexiParty.entity.Party;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyDeleteRequestDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyInformationResponseDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyListResponseDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyPostRequestDto;
-import com.example.daexi.domain.daexiParty.service.PartyService;
+import com.example.daexi.domain.party.entity.Party;
+import com.example.daexi.domain.party.presentation.dto.PartyDeleteRequestDto;
+import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
+import com.example.daexi.domain.party.presentation.dto.PartyListResponseDto;
+import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
+import com.example.daexi.domain.party.service.PartyService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -49,17 +49,16 @@ public class PartyController {
     }
 
     @GetMapping("/party/{party_id}/information")
-    public ResponseEntity<PartyInformationResponseDto> getPartyInformation(@PathVariable Long partyId) {
+    public ResponseEntity<PartyInformationResponseDto> getPartyInformation(@PathVariable Long party_id) {
         return ResponseEntity.ok()
-                .header("Content-Type", "applilcation/json")
-                .body(partyService.informationParty(partyId));
+                .body(partyService.informationParty(party_id));
     }
 
     @PutMapping("/party/{party_id}/retouch")
-    public ResponseEntity<PartyPostRequestDto> retouchParty(@PathVariable Long partyId, @RequestBody @Valid PartyPostRequestDto partyPostRequestDto) {
+    public ResponseEntity<PartyPostRequestDto> retouchParty(@PathVariable Long party_id, @RequestBody @Valid PartyPostRequestDto partyPostRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Content-Type", "application/json")
-                .body(partyService.retouchParty(partyId, partyPostRequestDto));
+                .body(partyService.retouchParty(party_id, partyPostRequestDto));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.daexi.domain.daexiParty.presentation.dto;
+package com.example.daexi.domain.party.presentation.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -19,4 +19,6 @@ public class PartyPostRequestDto {
 
     @NotBlank(message = "ending_point don't null")
     private String endingPoint;
+
+    private Long userId;
 }

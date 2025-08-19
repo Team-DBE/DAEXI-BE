@@ -1,11 +1,11 @@
-package com.example.daexi.domain.daexiParty.entity;
+package com.example.daexi.domain.party.entity;
 
+import com.example.daexi.domain.room.entity.Room;
 import com.example.daexi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -40,6 +40,10 @@ public class Party {
     @Column(nullable = false, name = "ending_point")
     private String endingPoint;
 
-    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<>();
+    @OneToMany(mappedBy = "party")
+    private List<Room> room;
+
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

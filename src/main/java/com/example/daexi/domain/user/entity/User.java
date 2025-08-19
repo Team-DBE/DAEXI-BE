@@ -1,13 +1,14 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.daexi.domain.daexiParty.entity.Party;
+import com.example.daexi.domain.party.entity.Party;
+import com.example.daexi.domain.room.entity.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,13 +28,12 @@ public class User {
     @Column(nullable = false, name = "acccount_number")
     private String accountNumber;
 
-    @Column(nullable = false)
-    private String email;
-
     @Column(length = 20, nullable = false, unique = true, name = "user_name")
     private String userName;
 
-    @ManyToOne
-    @JoinColumn(name = "party_id")
-    private Party party;
+    @OneToMany(mappedBy ="user")
+    private List<Room> rooms;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<User> users;
 }

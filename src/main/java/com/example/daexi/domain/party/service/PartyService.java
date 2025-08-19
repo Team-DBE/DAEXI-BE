@@ -1,11 +1,14 @@
-package com.example.daexi.domain.daexiParty.service;
+package com.example.daexi.domain.party.service;
 
-import com.example.daexi.domain.daexiParty.entity.Party;
-import com.example.daexi.domain.daexiParty.entity.repository.PartyRepository;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyDeleteRequestDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyInformationResponseDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyPostRequestDto;
-import com.example.daexi.domain.daexiParty.presentation.dto.PartyListResponseDto;
+import com.example.daexi.domain.party.entity.Party;
+import com.example.daexi.domain.party.entity.repository.PartyRepository;
+import com.example.daexi.domain.party.exception.PartyNotFoundException;
+import com.example.daexi.domain.party.presentation.dto.PartyDeleteRequestDto;
+import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
+import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
+import com.example.daexi.domain.party.presentation.dto.PartyListResponseDto;
+import com.example.daexi.global.exception.UserNotFoundException;
+import com.example.daexi.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 public class PartyService {
 
     private final PartyRepository partyRepository;
+    private final UserRepository userRepository;
 
     public List<PartyListResponseDto> partyList() {
         List<Party> partyEntities = partyRepository.findAll(Sort.by(Sort.Direction.ASC, "partyId"));
@@ -53,6 +57,7 @@ public class PartyService {
                 .endingPoint(partyPostRequestDto.getEndingPoint())
                 .createdAt(LocalDateTime.now())
                 .partyHost(principal.getName())
+                .user(userRepository.findById(partyPostRequestDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found")))
                 .build();
 
         partyRepository.save(party);
@@ -60,12 +65,7 @@ public class PartyService {
     }
 
     public void deleteParty(PartyDeleteRequestDto partyDeleteRequestDto, Principal principal) {
-        String username = principal.getName();
-        if (Party.builder()
-                .partyHost(partyDeleteRequestDto.toString())
-                .build()
-                .getPartyHost()
-                .equals(username)) {
+        if (partyRepository.findById(partyDeleteRequestDto.getPartyId()).get().getPartyHost().equals(principal.getName())) {
             partyRepository.deleteById(partyDeleteRequestDto.getPartyId());
         }
     }
@@ -73,10 +73,9 @@ public class PartyService {
     public PartyInformationResponseDto informationParty(Long partyId) {
 
         Party partyEntity = partyRepository.findById(partyId)
-                .orElseThrow(() -> new RuntimeException("Party not found"));
+                .orElseThrow(() -> new PartyNotFoundException("Party not found"));
 
         PartyInformationResponseDto partyInformationResponseDto = PartyInformationResponseDto.builder()
-                .partyId(partyEntity.getPartyId())
                 .partyName(partyEntity.getPartyName())
                 .partyHost(partyEntity.getPartyHost())
                 .startingPoint(partyEntity.getStartingPoint())
@@ -90,7 +89,7 @@ public class PartyService {
     public PartyPostRequestDto retouchParty(Long partyId, PartyPostRequestDto partyPostRequestDto) {
 
         Party partyEntity = partyRepository.findById(partyId)
-                .orElseThrow(() -> new RuntimeException("Party not found"));
+                .orElseThrow(() -> new PartyNotFoundException("Party not found"));
 
         partyEntity.setPartyName(partyPostRequestDto.getPartyName());
         partyEntity.setPartyPassword(partyPostRequestDto.getPartyPassword());
