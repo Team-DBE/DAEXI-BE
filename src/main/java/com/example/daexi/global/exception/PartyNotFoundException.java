@@ -1,4 +1,4 @@
-package com.example.daexi.domain.party.exception;
+package com.example.daexi.global.exception;
 
 public class PartyNotFoundException extends RuntimeException {
     public PartyNotFoundException(String message) {

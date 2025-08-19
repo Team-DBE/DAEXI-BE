@@ -2,7 +2,7 @@ package com.example.daexi.domain.party.service;
 
 import com.example.daexi.domain.party.entity.Party;
 import com.example.daexi.domain.party.entity.repository.PartyRepository;
-import com.example.daexi.domain.party.exception.PartyNotFoundException;
+import com.example.daexi.global.exception.PartyNotFoundException;
 import com.example.daexi.domain.party.presentation.dto.PartyDeleteRequestDto;
 import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
 import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;

@@ -2,7 +2,7 @@ package com.example.daexi.domain.room.service;
 
 import com.example.daexi.domain.party.entity.Party;
 import com.example.daexi.domain.party.entity.repository.PartyRepository;
-import com.example.daexi.domain.party.exception.PartyNotFoundException;
+import com.example.daexi.global.exception.PartyNotFoundException;
 import com.example.daexi.domain.room.entity.Room;
 import com.example.daexi.domain.room.presentation.dto.RoomRequestDto;
 import com.example.daexi.domain.room.presentation.dto.RoomResponseDto;
