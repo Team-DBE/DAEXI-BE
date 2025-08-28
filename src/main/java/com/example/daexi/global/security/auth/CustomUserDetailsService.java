@@ -1,6 +1,6 @@
 package com.example.daexi.global.security.auth;
 
-import com.example.daexi.domain.user.domain.User;
+import com.example.daexi.domain.user.entity.User;
 import com.example.daexi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

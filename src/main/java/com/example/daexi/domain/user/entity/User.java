@@ -1,4 +1,4 @@
-package com.example.daexi.domain.user.domain;
+package com.example.daexi.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
