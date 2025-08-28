@@ -1,34 +1,34 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.spring_security.global.time.BaseTimeEntity;
-import com.example.spring_security.domain.user.entity.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
 
 
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private int user_number;
+    @Column(nullable = false,length = 20)
+    private String userName;
 
     @Column(nullable = false,length = 30)
     private String password;
 
     @Column(nullable = false)
-    private String account_number;
+    private String accountNumber;
 
-    @Column(nullable = false)
-    private String email;
+    @Column(length = 1000)
+    private String userDetail;
 
-    @Column(length = 20,nullable = false, unique = true)
-    private String user_name;
+    @Column(nullable = false,unique = true)
+    private String accountId;
+
 }
