@@ -14,8 +14,5 @@ import java.time.LocalDateTime;
 public interface PartyRepository extends JpaRepository<Party, Long> {
     Page<Party> findPageBy(Pageable page);
 
-    @Query()
-
-
     void deleteByCreatedAtBefore(LocalDateTime createdAt);
 }
