@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/daexi
-    username: root
-    password: 'MySQLqp12@qp12wo'
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_NAME}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
     database: mysql
@@ -18,3 +18,8 @@ spring:
 
   jackson:
     property-naming-strategy: SNAKE_CASE
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-exp: ${JWT_ACCESS_EXP:900000}
+  refresh-exp: ${JWT_REFRESH_EXP:604800000}
