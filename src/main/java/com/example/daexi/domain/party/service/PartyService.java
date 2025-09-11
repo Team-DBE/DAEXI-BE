@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -57,7 +58,6 @@ public class PartyService {
                 .endingPoint(partyPostRequestDto.getEndingPoint())
                 .createdAt(LocalDateTime.now())
                 .partyHost(principal.getName())
-                .user(userRepository.findById(partyPostRequestDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found")))
                 .build();
 
         partyRepository.save(party);

@@ -26,7 +26,6 @@ public class JwtTokenProvider {
     private final RedisTemplate<String,String> redisTemplate;
     private final static String REFRESH_TOKEN="refresh_token";
     private final static String REDIS_PREFIX = "REFRESH_TOKEN:";
-
     private SecretKey secretKey;
 
     @PostConstruct
@@ -113,5 +112,11 @@ public class JwtTokenProvider {
         } catch(JwtException e) {
             throw new JwtInvalidException();
         }
+    }
+
+    public String reissueAccessToken(String refreshToken, String accountId) {
+        validateRefreshToken(refreshToken, accountId);
+
+        return generateAccessToken(accountId);
     }
 }

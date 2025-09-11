@@ -1,6 +1,5 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.daexi.domain.party.entity.Party;
 import com.example.daexi.domain.room.entity.Room;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "user")
 @Getter
 public class User {
     @Id
@@ -34,11 +34,14 @@ public class User {
 
     @Column(nullable = false,unique = true)
     private String accountId;
+
+    @Column(nullable = false)
+    private int userNumber;
   
     @OneToMany(mappedBy ="user")
     private List<Room> rooms;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<User> users;
+//
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    private List<User> users;
 
 }

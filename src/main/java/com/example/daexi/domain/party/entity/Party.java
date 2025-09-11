@@ -43,7 +43,7 @@ public class Party {
     @OneToMany(mappedBy = "party")
     private List<Room> room;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "user_id")
+//    private User user;
 }
