@@ -8,14 +8,11 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoomResponseDto {
+public class RoomJoinResponseDto {
 
     private final Long userId;
 
     private final String username;
 
     private final String accountNumber;
-
-    private final int userNumber;
-
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RoomRequestDto {
+public class RoomJoinRequestDto {
 
     private final Long userId;
 
