@@ -4,9 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class PartyPostRequestDto {
 
     @NotBlank(message = "party_name don't null")
@@ -14,11 +12,14 @@ public class PartyPostRequestDto {
 
     private String partyPassword;
 
-    @NotBlank(message = "starting_point don't null")
-    private String startingPoint;
+    private String startingLongitude;
 
-    @NotBlank(message = "ending_point don't null")
-    private String endingPoint;
+    private String startingLatitude;
 
-    private Long userId;
+    private String endingLongitude;
+
+    private String endingLatitude;
+
+    @NotBlank
+    private String accountId;
 }
