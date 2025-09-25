@@ -3,24 +3,20 @@ package com.example.daexi.domain.party.service;
 import com.example.daexi.domain.party.entity.Party;
 import com.example.daexi.domain.party.entity.repository.PartyRepository;
 import com.example.daexi.global.exception.PartyNotFoundException;
-import com.example.daexi.domain.party.presentation.dto.PartyDeleteRequestDto;
-import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
 import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
-import com.example.daexi.domain.party.presentation.dto.PartyListResponseDto;
-import com.example.daexi.global.exception.UserNotFoundException;
-import com.example.daexi.domain.user.repository.UserRepository;
+import com.example.daexi.global.security.auth.CustomUserDetails;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,86 +24,57 @@ import java.util.stream.Collectors;
 public class PartyService {
 
     private final PartyRepository partyRepository;
-    private final UserRepository userRepository;
 
-    public List<PartyListResponseDto> partyList() {
-        List<Party> partyEntities = partyRepository.findAll(Sort.by(Sort.Direction.ASC, "partyId"));
+    public Page<Party> listParty(int pageNum, int pageSize, String sortBy) {
+        Pageable page = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
 
-        return partyEntities.stream()
-                .map(this::convertTODto)
-                .collect(Collectors.toList());
-    }
-
-    public PartyListResponseDto convertTODto(Party party) {
-        return PartyListResponseDto.builder()
-                .partyId(party.getPartyId())
-                .partyName(party.getPartyName())
-                .partyHost(party.getPartyHost())
-                .startingPoint(party.getStartingPoint())
-                .endingPoint(party.getEndingPoint())
-                .build();
+        return partyRepository.findPageBy(page);
     }
 
     @Transactional
-    public Party postParty(@Valid PartyPostRequestDto partyPostRequestDto, @Valid Principal principal) {
+    public Party postParty(@Valid PartyPostRequestDto partyPostRequestDto, Authentication authentication) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String userName = customUserDetails.getUserName();
 
         Party party = Party.builder()
                 .partyName(partyPostRequestDto.getPartyName())
                 .partyPassword(partyPostRequestDto.getPartyPassword())
-                .startingPoint(partyPostRequestDto.getStartingPoint())
-                .endingPoint(partyPostRequestDto.getEndingPoint())
+                .startingLatitude(partyPostRequestDto.getStartingLatitude())
+                .startingLongitude(partyPostRequestDto.getStartingLongitude())
+                .endingLatitude(partyPostRequestDto.getEndingLatitude())
+                .endingLongitude(partyPostRequestDto.getEndingLongitude())
                 .createdAt(LocalDateTime.now())
-                .partyHost(principal.getName())
+                .partyHost(userName)
+                .accountId(partyPostRequestDto.getAccountId())
                 .build();
 
         partyRepository.save(party);
         return party;
     }
 
-    public void deleteParty(PartyDeleteRequestDto partyDeleteRequestDto, Principal principal) {
-        if (partyRepository.findById(partyDeleteRequestDto.getPartyId()).get().getPartyHost().equals(principal.getName())) {
-            partyRepository.deleteById(partyDeleteRequestDto.getPartyId());
-        }
+    public void deleteParty(Long partyId, Authentication authentication) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String userName = customUserDetails.getUserName();
+
+        partyRepository.findById(partyId).ifPresent(party -> {
+            if (party.getPartyHost().equals(userName)) {
+                partyRepository.delete(party);
+            }
+        });
     }
 
-    public PartyInformationResponseDto informationParty(Long partyId) {
-
-        Party partyEntity = partyRepository.findById(partyId)
-                .orElseThrow(() -> new PartyNotFoundException("Party not found"));
-
-        PartyInformationResponseDto partyInformationResponseDto = PartyInformationResponseDto.builder()
-                .partyName(partyEntity.getPartyName())
-                .partyHost(partyEntity.getPartyHost())
-                .startingPoint(partyEntity.getStartingPoint())
-                .endingPoint(partyEntity.getEndingPoint())
-                .createdAt(partyEntity.getCreatedAt())
-                .build();
-
-        return partyInformationResponseDto;
-    }
-
-    public PartyPostRequestDto retouchParty(Long partyId, PartyPostRequestDto partyPostRequestDto) {
+    public Party retouchParty(Long partyId, PartyPostRequestDto partyPostRequestDto) {
 
         Party partyEntity = partyRepository.findById(partyId)
                 .orElseThrow(() -> new PartyNotFoundException("Party not found"));
 
         partyEntity.setPartyName(partyPostRequestDto.getPartyName());
         partyEntity.setPartyPassword(partyPostRequestDto.getPartyPassword());
-        partyEntity.setStartingPoint(partyPostRequestDto.getStartingPoint());
-        partyEntity.setEndingPoint(partyPostRequestDto.getEndingPoint());
+        partyEntity.setStartingLongitude(partyPostRequestDto.getStartingLongitude());
+        partyEntity.setStartingLatitude(partyPostRequestDto.getStartingLatitude());
+        partyEntity.setEndingLongitude(partyPostRequestDto.getEndingLongitude());
+        partyEntity.setEndingLatitude(partyPostRequestDto.getEndingLatitude());
 
-        Party updateParty = partyRepository.save(partyEntity);
-
-        partyPostRequestDto.builder()
-                .partyName(updateParty.getPartyName())
-                .partyPassword(updateParty.getPartyPassword())
-                .startingPoint(updateParty.getStartingPoint())
-                .endingPoint(updateParty.getEndingPoint())
-                .build();
-
-        return partyPostRequestDto;
+        return partyRepository.save(partyEntity);
     }
-
-
-
 }

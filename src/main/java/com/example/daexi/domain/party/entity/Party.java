@@ -34,16 +34,25 @@ public class Party {
     @Column(nullable = false, name = "party_host")
     private String partyHost;
 
-    @Column(nullable = false, name = "starting_point")
-    private String startingPoint;
+    @Column(nullable = false, name = "starting_latitude")
+    private String startingLatitude; // 위도 - X
 
-    @Column(nullable = false, name = "ending_point")
-    private String endingPoint;
+    @Column(nullable = false, name = "starting_longitude")
+    private String startingLongitude; // 경도 - Y
+
+    @Column(nullable = false, name = "ending_latitude")
+    private String endingLatitude; // 위도 - X
+
+    @Column(nullable = false, name = "ending_longitude")
+    private String endingLongitude; // 경도 - Y
+
+    @Column(nullable = false,unique = true)
+    private String accountId;
 
     @OneToMany(mappedBy = "party")
     private List<Room> room;
 
-//    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
