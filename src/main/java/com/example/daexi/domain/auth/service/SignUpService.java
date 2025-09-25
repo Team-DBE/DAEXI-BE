@@ -38,9 +38,6 @@ public class SignUpService {
 
         String accessToken = jwtTokenProvider.generateAccessToken(signUpRequestDto.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(signUpRequestDto.getAccountId());
-        return JwtTokenResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return new JwtTokenResponse(accessToken,refreshToken);
     }
 }

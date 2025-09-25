@@ -28,8 +28,6 @@ public class SignInService {
         String accessToken = jwtTokenProvider.generateAccessToken(signInRequestDto.getAccountId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(signInRequestDto.getAccountId());
 
-        return JwtTokenResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken).build();
+        return new JwtTokenResponse(accessToken,refreshToken);
     }
 }
