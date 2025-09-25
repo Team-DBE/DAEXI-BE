@@ -8,7 +8,7 @@ import com.example.daexi.domain.room.entity.Room;
 import com.example.daexi.domain.room.presentation.dto.RoomJoinRequestDto;
 import com.example.daexi.domain.room.presentation.dto.RoomJoinResponseDto;
 import com.example.daexi.domain.user.entity.User;
-import com.example.daexi.global.exception.UserNotFoundException;
+import com.example.daexi.domain.user.exception.UserNotFoundException;
 import com.example.daexi.domain.user.repository.UserRepository;
 import com.example.daexi.domain.room.entity.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
