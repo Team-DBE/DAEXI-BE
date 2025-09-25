@@ -27,7 +27,7 @@ public class User {
 
     @Column(length = 1000)
     private String userDetail;
-
+  
     @OneToMany(mappedBy ="user")
     private List<Room> rooms;
 

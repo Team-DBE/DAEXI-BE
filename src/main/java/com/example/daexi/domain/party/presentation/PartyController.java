@@ -1,19 +1,15 @@
 package com.example.daexi.domain.party.presentation;
 
 import com.example.daexi.domain.party.entity.Party;
-import com.example.daexi.domain.party.presentation.dto.PartyDeleteRequestDto;
-import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
-import com.example.daexi.domain.party.presentation.dto.PartyListResponseDto;
 import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
 import com.example.daexi.domain.party.service.PartyService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -26,36 +22,34 @@ public class PartyController {
     }
 
     @GetMapping("/party/list")
-    public ResponseEntity<List<PartyListResponseDto>> getPartyList() {
-        return ResponseEntity.ok()
-                .body(partyService.partyList());
+    public ResponseEntity<Page<Party>> getPartyList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
+
+        Page<Party> listParty = partyService.listParty(page, size, sortBy);
+        return ResponseEntity.ok(listParty);
     }
 
     @PostMapping("/party/post")
-    public ResponseEntity<Party> postParty(@RequestBody @Valid PartyPostRequestDto partyPostRequestDto, Principal principal) {
+    public ResponseEntity<Party> postParty(@RequestBody @Valid PartyPostRequestDto partyPostRequestDto, Authentication authentication) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Content-Type", "application/json")
-                .body(partyService.postParty(partyPostRequestDto, principal));
+                .body(partyService.postParty(partyPostRequestDto, authentication));
     }
 
-    @DeleteMapping("/party/delete")
-    public ResponseEntity<Void> deleteParty(@RequestBody @Valid PartyDeleteRequestDto partydeleteRequestDto, @Valid Principal principal) {
-        partyService.deleteParty(partydeleteRequestDto, principal);
+    @DeleteMapping("/party/{party_id}/delete")
+    public ResponseEntity<Void> deleteParty(@PathVariable Long party_id, Authentication authentication) {
+        partyService.deleteParty(party_id, authentication);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .header("Content-Type", "application/json")
                 .build();
     }
 
-    @GetMapping("/party/{party_id}/information")
-    public ResponseEntity<PartyInformationResponseDto> getPartyInformation(@PathVariable Long party_id) {
-        return ResponseEntity.ok()
-                .body(partyService.informationParty(party_id));
-    }
-
     @PutMapping("/party/{party_id}/retouch")
-    public ResponseEntity<PartyPostRequestDto> retouchParty(@PathVariable Long party_id, @RequestBody @Valid PartyPostRequestDto partyPostRequestDto) {
+    public ResponseEntity<Party> retouchParty(@PathVariable Long party_id, @RequestBody @Valid PartyPostRequestDto partyPostRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Content-Type", "application/json")
                 .body(partyService.retouchParty(party_id, partyPostRequestDto));

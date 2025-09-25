@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     Room findByUserAndParty(User user, Party party);
+
+    Room findRoomByPartyId(Long partyId);
 }
