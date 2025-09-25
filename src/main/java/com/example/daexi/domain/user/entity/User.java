@@ -1,6 +1,5 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.daexi.domain.party.entity.Party;
 import com.example.daexi.domain.room.entity.Room;
 import jakarta.persistence.*;
 import lombok.*;
