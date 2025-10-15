@@ -25,13 +25,30 @@ public class User {
     @Column(nullable = false,length = 60)
     private String password;
 
+    @Column(nullable = false)
+    private String accountNumber;
+
     @Column(length = 1000)
     private String userDetail;
-  
+
     @OneToMany(mappedBy ="user")
     private List<Room> rooms;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<User> users;
 
+    @Column(nullable = false,unique = true)
+    private String accountId;
+
+    @Column(nullable = false)
+    private int userNumber;
+    //
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    private List<User> users;
+    public void updateDetail(String userName, String accountNumber, String userDetail, String accountId){
+        this.userName = userName;
+        this.accountId = accountId;
+        this.userDetail = userDetail;
+        this.accountNumber = accountNumber;
+    }
 }

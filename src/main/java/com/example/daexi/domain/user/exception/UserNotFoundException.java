@@ -1,4 +1,4 @@
-package com.example.daexi.global.exception;
+package com.example.daexi.domain.user.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {
