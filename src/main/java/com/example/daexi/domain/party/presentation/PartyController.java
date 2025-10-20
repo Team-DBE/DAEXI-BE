@@ -6,7 +6,6 @@ import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
 import com.example.daexi.domain.party.service.PartyService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
