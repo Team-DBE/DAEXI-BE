@@ -1,14 +1,8 @@
 package com.example.daexi.domain.user.entity;
 
-import com.example.daexi.domain.party.entity.Party;
-import com.example.daexi.domain.room.entity.Room;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
-
-
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -1,7 +1,6 @@
 package com.example.daexi.domain.auth.service;
 
 import com.example.daexi.domain.auth.dto.request.SignInRequestDto;
-import com.example.daexi.domain.auth.dto.request.SignUpRequestDto;
 import com.example.daexi.domain.auth.dto.response.JwtTokenResponse;
 import com.example.daexi.domain.auth.exception.AccountNotFoundException;
 import com.example.daexi.domain.auth.exception.InvalidPasswordException;
