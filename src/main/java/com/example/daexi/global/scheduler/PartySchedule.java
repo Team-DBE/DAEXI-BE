@@ -2,17 +2,17 @@ package com.example.daexi.global.scheduler;
 
 import com.example.daexi.domain.party.entity.repository.PartyRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
+@RequiredArgsConstructor
 public class PartySchedule {
 
-    private PartyRepository partyRepository;
+    private final PartyRepository partyRepository;
 
     @Scheduled(fixedRate = 3600000)
     @Transactional
