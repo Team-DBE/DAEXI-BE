@@ -10,8 +10,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoomJoinRequestDto {
-
-    private final Long userId;
-
     private final String password;
 }

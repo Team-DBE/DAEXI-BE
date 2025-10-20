@@ -11,4 +11,6 @@ public class UserInfoUpdateRequestDto {
     private String userDetail;
 
     private String accountNumber;
+
+    private String password;
 }

@@ -1,6 +1,7 @@
 package com.example.daexi.domain.party.presentation;
 
 import com.example.daexi.domain.party.entity.Party;
+import com.example.daexi.domain.party.presentation.dto.PartyInformationResponseDto;
 import com.example.daexi.domain.party.presentation.dto.PartyPostRequestDto;
 import com.example.daexi.domain.party.service.PartyService;
 import jakarta.validation.Valid;
@@ -11,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
+@RequestMapping("/party")
 public class PartyController {
 
     private final PartyService partyService;
@@ -21,17 +25,16 @@ public class PartyController {
         this.partyService = partyService;
     }
 
-    @GetMapping("/party/list")
-    public ResponseEntity<Page<Party>> getPartyList(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
+    @GetMapping("/list")
+    public ResponseEntity<List<Party>> getPartyList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
 
-        Page<Party> listParty = partyService.listParty(page, size, sortBy);
+        List<Party> listParty = partyService.listParty(page, size);
         return ResponseEntity.ok(listParty);
     }
 
-    @PostMapping("/party/post")
+    @PostMapping("/post")
     public ResponseEntity<Party> postParty(@RequestBody @Valid PartyPostRequestDto partyPostRequestDto, Authentication authentication) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -39,7 +42,7 @@ public class PartyController {
                 .body(partyService.postParty(partyPostRequestDto, authentication));
     }
 
-    @DeleteMapping("/party/{party_id}/delete")
+    @DeleteMapping("/{party_id}/delete")
     public ResponseEntity<Void> deleteParty(@PathVariable Long party_id, Authentication authentication) {
         partyService.deleteParty(party_id, authentication);
 
@@ -48,11 +51,17 @@ public class PartyController {
                 .build();
     }
 
-    @PutMapping("/party/{party_id}/retouch")
+    @PutMapping("/{party_id}/retouch")
     public ResponseEntity<Party> retouchParty(@PathVariable Long party_id, @RequestBody @Valid PartyPostRequestDto partyPostRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Content-Type", "application/json")
                 .body(partyService.retouchParty(party_id, partyPostRequestDto));
     }
 
+    @GetMapping("/{party_id}/information")
+    public ResponseEntity<PartyInformationResponseDto> informationParty(@PathVariable Long partyId) {
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json")
+                .body(partyService.getPartyInformation(partyId));
+    }
 }

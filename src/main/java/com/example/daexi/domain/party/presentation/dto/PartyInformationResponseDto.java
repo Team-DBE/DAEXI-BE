@@ -1,23 +1,33 @@
 package com.example.daexi.domain.party.presentation.dto;
 
+import com.example.daexi.domain.user.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class PartyInformationResponseDto {
+    private User partyHost;
 
     private String partyName;
 
-    private String partyHost;
+    private String accountNumber;
 
     private LocalDateTime createdAt;
 
-    private String startingPoint;
+    private LocalDateTime arriveAt;
 
-    private String endingPoint;
+    private String startingLongitude;
 
+    private String startingLatitude;
+
+    private String endingLongitude;
+
+    private String endingLatitude;
+
+    private List<User> userList;
 }

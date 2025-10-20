@@ -17,19 +17,19 @@ public class UserController {
     private final UserDeleteService userDeleteService;
     private final UserInfoUpdateService userInfoUpdateService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDetailResponseDto> getUser(@PathVariable Long id) {
         return ResponseEntity.ok().body(userGetDetailService.getUserDetail(id));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userDeleteService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserDetailResponseDto> updateUserInfo(@PathVariable Long id, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto) {
-        return ResponseEntity.ok().body(userInfoUpdateService.UserDetailUpdate(userInfoUpdateRequestDto));
+        return ResponseEntity.ok().body(userInfoUpdateService.UserDetailUpdate(id,userInfoUpdateRequestDto));
     }
 }

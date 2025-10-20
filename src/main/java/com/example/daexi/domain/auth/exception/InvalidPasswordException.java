@@ -1,7 +1,10 @@
 package com.example.daexi.domain.auth.exception;
 
-public class InvalidPasswordException extends RuntimeException {
+import com.example.daexi.global.exception.ErrorCode;
+import com.example.daexi.global.exception.GlobalException;
+
+public class InvalidPasswordException extends GlobalException {
     public InvalidPasswordException() {
-        super("Invalid password");
+        super(ErrorCode.INVALID_PASSWORD);
     }
 }

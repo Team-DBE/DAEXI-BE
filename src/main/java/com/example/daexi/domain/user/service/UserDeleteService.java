@@ -14,10 +14,10 @@ public class UserDeleteService {
     private final UserRepository userRepository;
 
     public void deleteUser(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         userRepository.deleteById(id);
         if(userRepository.existsById(id)) {
-            throw new UserDeletionFailedException("User Deletion Failed");
+            throw new UserDeletionFailedException();
         }
     }
 }

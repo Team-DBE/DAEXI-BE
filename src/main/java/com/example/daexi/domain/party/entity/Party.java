@@ -4,6 +4,7 @@ import com.example.daexi.domain.room.entity.Room;
 import com.example.daexi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,41 +19,53 @@ import java.util.List;
 public class Party {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false, name = "party_id")
+    @Column(unique = true, nullable = false)
     private Long partyId;
 
-    @Column(nullable = false, name = "party_name")
+    @Column(nullable = false)
     private String partyName;
 
-    @Column(nullable = true , name = "party_password")
+    @Column(nullable = true)
     private String partyPassword;
 
-    @Column(nullable = false, name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "party_host")
-    private String partyHost;
+    private LocalDateTime arriveAt;
 
-    @Column(nullable = false, name = "starting_latitude")
+    @Column(nullable = false)
     private String startingLatitude; // 위도 - X
 
-    @Column(nullable = false, name = "starting_longitude")
+    @Column(nullable = false)
     private String startingLongitude; // 경도 - Y
 
-    @Column(nullable = false, name = "ending_latitude")
+    @Column(nullable = false)
     private String endingLatitude; // 위도 - X
 
-    @Column(nullable = false, name = "ending_longitude")
+    @Column(nullable = false)
     private String endingLongitude; // 경도 - Y
-
-    @Column(nullable = false,unique = true)
-    private String accountId;
 
     @OneToMany(mappedBy = "party")
     private List<Room> room;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User partyhost;
+
+    public Party updateParty(String partyName,
+                             String partyPassword,
+                             LocalDateTime arriveAt,
+                             String startingLatitude,
+                             String startingLongitude,
+                             String endingLatitude,
+                             String endingLongitude) {
+        this.partyName = partyName;
+        this.partyPassword = partyPassword;
+        this.arriveAt = arriveAt;
+        this.startingLatitude = startingLatitude;
+        this.startingLongitude = startingLongitude;
+        this.endingLatitude = endingLatitude;
+        this.endingLongitude = endingLongitude;
+        return this;
+    }
 }

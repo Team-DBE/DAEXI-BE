@@ -1,7 +1,10 @@
 package com.example.daexi.domain.auth.exception;
 
-public class UserNumberAlreadyExistsException extends RuntimeException {
+import com.example.daexi.global.exception.ErrorCode;
+import com.example.daexi.global.exception.GlobalException;
+
+public class UserNumberAlreadyExistsException extends GlobalException {
     public UserNumberAlreadyExistsException() {
-        super("User number already exists");
+        super(ErrorCode.USER_NUMBER_ALREADY_EXISTS);
     }
 }

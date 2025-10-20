@@ -11,8 +11,6 @@ public class PartyListResponseDto {
 
     private String partyName;
 
-    private String partyHost;
-
     private String startingPoint;
 
     private String endingPoint;
