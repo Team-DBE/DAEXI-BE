@@ -18,7 +18,7 @@ public class ReissueTokenService {
         if(!userRepository.existsByAccountId(reissueRequestDto.getAccountId())){
             throw new AccountNotFoundException();
         }
-        String accessToken = jwtTokenProvider.reissueAccessToken(reissueRequestDto.getRefreshToken(), reissueRequestDto.getAccountId());
+        String accessToken = jwtTokenProvider.reissueAccessToken(reissueRequestDto.getAccountId(),reissueRequestDto.getRefreshToken());
         return new JwtTokenResponse(accessToken,reissueRequestDto.getRefreshToken());
     }
 }

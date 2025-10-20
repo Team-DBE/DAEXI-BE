@@ -3,8 +3,8 @@ package com.example.daexi.domain.auth.exception;
 import com.example.daexi.global.exception.ErrorCode;
 import com.example.daexi.global.exception.GlobalException;
 
-public class AccountNotFoundException extends GlobalException {
-    public AccountNotFoundException() {
-        super(ErrorCode.ACCOUNT_NOT_FOUND);
+public class NoAccountNumberException extends GlobalException {
+    public NoAccountNumberException() {
+        super(ErrorCode.NO_ACCOUNT_NUMBER);
     }
 }

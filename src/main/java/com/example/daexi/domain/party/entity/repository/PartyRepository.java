@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface PartyRepository extends JpaRepository<Party, Long> {
-    Page<Party> findPageBy(Pageable page);
+    List<Party> findAllBy(Pageable page);
 
-    void deleteByCreatedAtBefore(LocalDateTime createdAt);
+    void deleteByArriveAtBefore(LocalDateTime arriveAtBefore);
 }

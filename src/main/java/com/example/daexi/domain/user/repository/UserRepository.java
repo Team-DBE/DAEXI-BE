@@ -2,7 +2,6 @@ package com.example.daexi.domain.user.repository;
 
 import com.example.daexi.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 

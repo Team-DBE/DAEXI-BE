@@ -6,6 +6,7 @@ import com.example.daexi.domain.user.entity.User;
 import com.example.daexi.domain.user.exception.UserNotFoundException;
 import com.example.daexi.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserInfoUpdateService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserDetailResponseDto UserDetailUpdate(UserInfoUpdateRequestDto dto){
-        User user = userRepository.findById(dto.getId()).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public UserDetailResponseDto UserDetailUpdate(Long id, UserInfoUpdateRequestDto dto){
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 
-        user.updateDetail(dto.getUserName(), dto.getAccountNumber(), dto.getUserDetail(), dto.getAccountId());
+        user.updateDetail(dto.getUserName(),
+                dto.getAccountNumber(),
+                dto.getUserDetail(),
+                dto.getAccountId(),
+                passwordEncoder.encode(dto.getPassword()));
         userRepository.save(user);
 
         return UserDetailResponseDto.builder()

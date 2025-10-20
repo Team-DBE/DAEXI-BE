@@ -3,6 +3,8 @@ package com.example.daexi.domain.party.presentation.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class PartyPostRequestDto {
@@ -12,6 +14,8 @@ public class PartyPostRequestDto {
 
     private String partyPassword;
 
+    private LocalDateTime arriveAt;
+
     private String startingLongitude;
 
     private String startingLatitude;
@@ -19,7 +23,4 @@ public class PartyPostRequestDto {
     private String endingLongitude;
 
     private String endingLatitude;
-
-    @NotBlank
-    private String accountId;
 }

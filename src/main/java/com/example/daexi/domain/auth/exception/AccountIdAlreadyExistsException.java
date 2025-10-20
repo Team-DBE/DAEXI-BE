@@ -1,7 +1,10 @@
 package com.example.daexi.domain.auth.exception;
 
-public class AccountIdAlreadyExistsException extends RuntimeException {
+import com.example.daexi.global.exception.ErrorCode;
+import com.example.daexi.global.exception.GlobalException;
+
+public class AccountIdAlreadyExistsException extends GlobalException {
   public AccountIdAlreadyExistsException() {
-    super("Account id already exists");
+    super(ErrorCode.ACCOUNT_ID_ALREADY_EXISTS);
   }
 }

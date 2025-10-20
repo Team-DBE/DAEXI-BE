@@ -13,7 +13,7 @@ public class UserGetDetailService {
     private final UserRepository userRepository;
 
     public UserDetailResponseDto getUserDetail(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
 
         return UserDetailResponseDto.builder()
                 .userName(user.getUserName())

@@ -26,7 +26,6 @@ public class SignUpService {
         else if(userRepository.existsByUserNumber(signUpRequestDto.getUserNumber()))
             throw new UserNumberAlreadyExistsException();
 
-
         User user = User.builder()
                 .accountId(signUpRequestDto.getAccountId())
                 .userName(signUpRequestDto.getUserName())

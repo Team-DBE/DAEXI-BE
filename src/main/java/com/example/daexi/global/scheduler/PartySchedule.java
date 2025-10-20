@@ -10,16 +10,14 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-@Slf4j
 public class PartySchedule {
 
-    @Autowired
     private PartyRepository partyRepository;
 
     @Scheduled(fixedRate = 3600000)
     @Transactional
     public void deleteOldParties() {
-        LocalDateTime createdAt = LocalDateTime.now().minusHours(5);
-        partyRepository.deleteByCreatedAtBefore(createdAt);
+        LocalDateTime now = LocalDateTime.now();
+        partyRepository.deleteByArriveAtBefore(now);
     }
 }
