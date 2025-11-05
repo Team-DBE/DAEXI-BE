@@ -5,6 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class DaexiApplicationTests {
+    @Test
+    void contextLoads() {
 
-
+    }
 }
